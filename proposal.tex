@@ -1,0 +1,114 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Proposal: A survey of data transfer and storage techniques in prevalent cryptocurrencies and suggested improvements}
+\author{Sunny Katkuri}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Survey of wire protocols}
+\subsection* {Methodology}
+There is no known similar work at the moment. A tentative list of cryptocurrencies that will be considered:
+\begin{itemize}
+\item Bitcoin, Bitcoin Cash and Litecoin: The protocol is well documented and will be re-summarized to fit the context of this document. This specification will be used as the reference for the rest of the protocols.
+\item Ethereum: The protocol is specified in parts in multiple wikis. The Falcon network decentralizatoin paper had to even look at reference implementations \cite{falcon-decentralization}.
+\item Ripple: The whitepaper does not cover discovery or transfer. Information will have to be extracted from rippled, the canonical node implementation \cite{rippled}.
+\item DAG protocols
+    \begin{enumerate}
+        \item IOTA: The Tangle paper \cite{tangle} does not delve into wire specifics, this information will have to be extracted from code.
+        \item Nano: Network specifics are vaguely mentioned in a wiki \cite{nano_usage}. There is no known examination of what a block lattice structure \cite{nano} actually entails in terms of bandwidth.
+    \end{enumerate}
+\item Hashgraph: Though not a cryptocurrency, hashgraph \cite{hashgraph} is being presented as a viable alternative to blockchains and DAGs. It is interesting to look at the implementation-level implications of \textit{gossip about gossip} and \textit{virtual voting}.
+\end{itemize}
+\textbf{Submit by: } Feb. 16, 2018
+
+\section{A well-documented and generalized crawling library}
+\subsection* {Methodology}
+Crawlers have been published for Bitcoin \cite{bitnodes, btc-crawler}. Analysis and visualizations are also similarly focused on Bitcoin and friends \cite{dance, bitinfo}. The most popular node explorer for Ethereum is not open-source \cite{ethernodes}. The goal of this section will be to publish a python module which encapsulates known topology discovery methods and implements new ones where needed. This module should be able to produce results in multiple output formats. An additional goal is to have a website which unifies maps and visualizations for all currencies under consideration.\\
+\\
+\textbf{Submit by: } Mar. 2, 2018
+
+\section{Analysis of collected data}
+\subsection* {Methodology}
+This section is contingent on our crawler accumulating meaningful data. The primary sources for the work done here will be the methods outlined in papers such as Hijacking Bitcoin and others \cite{hijack, topology, aslevel}. We will evaluate how these methods carry over to the P2P networks of the other currencies under consideration.
+\\
+\\
+\textbf{Submit by: } Mar. 9, 2018
+
+\section{Improving data transfer efficiency}
+\subsection* {Methodology}
+Identify duplicate data transfers in the implementations of the currencies under consideration. Evaluate how techniques like Graphene \cite{graphene} , compact blocks \cite{compact} and filters \cite{filters} and relay networks like Fibre \cite{fibre} and Falcon \cite{falcon} carry over to the other networks. Falcon does this for Ethereum already.
+\\
+\\
+\textbf{Submit by: } Mar. 23, 2018
+
+\section{Contribute to current Ethereum research: Survey of sharding techniques}
+\subsection* {Methodology}
+Provide a comprehensive account of different sharding proposals \cite{shard1, shard2} till date and other scaling solutions like Raiden \cite{raiden} and Lightning Network \cite{lightning}. We will try to understand the reasoning behind the current state of the Ethereum sharding proposal \cite{sharding-proposal}. An additional goal will be to become an active participant in the discussions surrounding the implementation roadmap. 
+\\
+\\
+\textbf{Submit by: } Mar. 30, 2018
+
+\section{A general purpose sharding simulation}
+\subsection* {Methodology}
+There is no current published project which provides a platform to simulate the effects of different sharding proposals. This platform's aim would be to provide an abstracted view of a blockchain with all the sharding primitives built in. The key goal will be to make the system intuitive and visual and provide an easy interface to tune different parameters.
+\\
+\\
+\textbf{Submit by: } Apr. 6, 2018
+
+\section{Survey of data storage techniques}
+\subsection* {Methodology}
+This section will examine how transactions and blocks are stored and accessed on disk.
+\begin{itemize}
+\item Bitcoin, Bitcoin Cash and Litecoin: Specify the LevelDB \cite{leveldb} schemas and the code paths in which they are accessed. This specification will be used as the reference for the rest of the protocols.
+\item Ethereum: Describe the various tries \cite{tries} and how they translate to LevelDB schemas.
+
+Other currencies will be described as and when they are studied.
+\end{itemize}
+\\
+\\
+\textbf{Submit by: } Apr. 20, 2018
+
+\section{Improving data storage efficiency}
+\subsection* {Methodology}
+Implement Gavin's proposal \cite{cuckoo} for UTXO protocols and evaluate its effects.
+\\
+\\
+\textbf{Submit by: } May 4, 2018
+
+\begin{thebibliography}{92}
+\bibitem{falcon-decentralization}\url{https://arxiv.org/pdf/1801.03998.pdf}
+\bibitem{rippled}\url{https://github.com/ripple/rippled}
+\bibitem{tangle}\url{https://iota.org/IOTA\_Whitepaper.pdf}
+\bibitem{hashgraph}\url{http://www.swirlds.com/downloads/SWIRLDS-TR-2016-01.pdf}
+\bibitem{nano}\url{https://raiblocks.net/media/RaiBlocks\_Whitepaper\_\_English.pdf}
+\bibitem{nano_usage}\url{https://github.com/clemahieu/raiblocks/wiki/Network-usage}
+\bibitem{bitnodes}\url{https://github.com/ayeowch/bitnodes}
+\bibitem{btc-crawler}\url{https://github.com/shazow/btc-crawl}
+\bibitem{dance}\url{https://cash.coin.dance/nodes}
+\bibitem{ethernodes}\url{https://www.ethernodes.org}
+\bibitem{bitinfo}\url{https://bitinfocharts.com/bitcoin/nodes-active/}
+\bibitem{hijack}\url{https://arxiv.org/pdf/1605.07524.pdf}
+\bibitem{topology}\url{https://cs.umd.edu/projects/coinscope/coinscope.pdf}
+\bibitem{aslevel}\url{https://www.sciencedirect.com/science/article/pii/S187705091400742X}
+\bibitem{compact}\url{https://github.com/bitcoin/bips/
+blob/master/bip-0152.mediawiki}
+\bibitem{graphene}\url{https://people.cs.umass.edu/~gbiss/graphene.pdf}
+\bibitem{fibre}\url{https://github.com/
+bitcoinfibre/bitcoinfibre}
+\bibitem{filters}\url{https://github.com/bitcoin/bips/blob/master/bip-0037.mediawiki}
+\bibitem{falcon}\url{https://www.falcon-net.org/}
+\bibitem{raiden}\url{https://raiden.network/}
+\bibitem{lightning}\url{https://lightning.network}
+\bibitem{sharding-proposal}\url{https://github.com/ethereum/sharding/blob/develop/docs/doc.md}
+\bibitem{shard1}\url{https://dl.acm.org/citation.cfm?id=2978389}
+\bibitem{shard2}\url{https://arxiv.org/abs/1611.06816}
+\bibitem{leveldb}\url{https://en.bitcoin.it/wiki/Bitcoin_Core_0.11_(ch_2):_Data_Storage}
+\bibitem{tries}\url{https://easythereentropy.wordpress.com/2014/06/04/understanding-the-ethereum-trie/}
+\bibitem{cuckoo}\url{https://gist.github.com/gavinandresen/e9177aae1183226937fca8e8cbfc5f79}
+\end{thebibliography}
+
+\end{document}
