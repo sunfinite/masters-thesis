@@ -1,0 +1,50 @@
+geth
+    - eth/protocol.go
+    - txPool
+    - sendTx
+    - txBroadcastLoop
+    - p2p/server.go
+    - eth/downloader/downloader.go (QoS)
+    - acceptTxs is false if not synced
+
+    - ./geth --datadir n1 --verbosity 6 --nodiscover --port 4242
+
+    - ./geth --datadir n1 --exec "eth.syncing;admin.addPeer('enode://d22cf10a1b9fbd7da15665b4f04b6ec07d99674ba0ed2f1e9992a3ccc4fbeca534112d75d5941227aec1461f5e03f7b2105923630b861194a319e1a37029ee94@127.0.0.1:4343')" attach
+
+    - (env) sunfinite@csbnh2:~/go-ethereum$ export GOPATH=~/go-ethereum/build/_workspace/
+    (env) sunfinite@csbnh2:~/go-ethereum$ go get github.com/willf/bloom
+    (env) sunfinite@csbnh2:~/go-ethereum$ make
+
+    - Start at cmd/geth/main.go
+    - app.Action = geth
+
+    leaving off at makeConfigNode in cmd/geth/config.go
+    node.Start() is called in cmd/utils/cmd.go (stack.Start())
+    Imported new block headers
+    Imported new state entries
+    Imported new block receipts
+
+    downloader.Synchronise is called from eth/sync.go's pm.synchronise which is called from eth/handler.go's pm.syncer
+
+
+
+nano
+    - sunfinite@csbnh2:~/raiblocks$ cmake .
+    - sunfinite@csbnh2:~/raiblocks$ make
+    - rm -r data; mkdir data
+    - ./rai_node --daemon --data_path data
+    - log file is in the data directory
+
+		--- a/rai/node/node.cpp
+		+++ b/rai/node/node.cpp
+		@@ -815,7 +815,7 @@ state_block_generate_canary (0)
+                case rai::rai_networks::rai_live_network:
+-                       preconfigured_peers.push_back ("rai.raiblocks.net");
++                       //preconfigured_peers.push_back ("rai.raiblocks.net");
+		--- a/rai/node/node.hpp
+		+++ b/rai/node/node.hpp
+		@@ -329,7 +329,7 @@ public:
+-       static uint16_t const node_port = rai::rai_network == rai::rai_networks::rai_live_network ? 7075 : 54000;
++       static uint16_t const node_port = rai::rai_network == rai::rai_networks::rai_live_network ? 4242 : 54000;
+
+
