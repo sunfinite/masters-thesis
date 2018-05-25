@@ -4,6 +4,8 @@ import random
 from collections import defaultdict
 import hashlib
 import sys 
+from scipy.sparse.linalg import cg
+import numpy as np
 
 def compute_merkle_root(values):
     for i in range(0, len(values), 2):
@@ -21,7 +23,7 @@ def all_diff(variables, values):
 def merkle_root(variables, values):
     pass
     
-n = 10
+n = 200
 k = 3
 c = int(n * 1.0)
 print("n Buckets: ", c)
@@ -230,7 +232,28 @@ if __name__ == '__main__':
     random.shuffle(ordered_vars)
     sender_buckets = encode(ordered_vars)
     receiver_buckets = decode(variables, sender_buckets)
-    assigned = simplify_equations(receiver_buckets)
+    rows = []
+    sums = []
+    for i in range(len(variables)):
+        items = receiver_buckets.get(i)
+        row = [0] * len(variables)
+        if not items:
+            rows.append(row)
+            sums.append(0)
+            continue
+        for var in items['vars']:
+            row[variables.index(var)] = 1
+        rows.append(row)
+        sums.append(items['sum'])
+    print(rows)
+    print(sums)
+    rows = np.array(rows)
+    sums = np.array(sums)
+    print(rows.shape, sums.shape)
+    # print(np.linalg.solve(rows, sums))
+    print(cg(rows, sums))
+
+    """assigned = simplify_equations(receiver_buckets)
     if len(assigned) == len(ordered_vars):
         check_assigned(assigned, ordered_vars)
     else:
@@ -260,3 +283,5 @@ if __name__ == '__main__':
                 print("No change in assigned, giving up")
                 print(len(assigned))
                 break
+    """
+    
